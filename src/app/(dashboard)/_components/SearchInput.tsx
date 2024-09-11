@@ -1,18 +1,28 @@
 "use client"
 
 import { Input } from "@/components/ui/input"
+import { useDebounce } from "@/hooks/useDebounce"
 import { Search } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 const SearchInput = () => {
 
   const router = useRouter();
   const [value, setValue] = useState("");
+  const debouncedValue = useDebounce(value, 500)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
   }
+
+  useEffect(() => {
+    if (debouncedValue.trim()) {
+      const params = new URLSearchParams({ search: debouncedValue });
+      const url = `/?${params.toString()}`;
+      router.push(url);
+    }
+  }, [debouncedValue, router]);
   
 
   return (
@@ -23,6 +33,8 @@ const SearchInput = () => {
       <Input 
         className="w-full max-w-[516px] pl-9"
         placeholder="Search board"
+        onChange={handleChange}
+        value={value}
       />
     </div>
   )

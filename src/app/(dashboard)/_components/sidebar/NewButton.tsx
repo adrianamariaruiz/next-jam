@@ -27,7 +27,7 @@ const NewButton = () => {
       <DialogContent className="pt-10 bg-white border-none max-w-[480px]">
         <DialogHeader>
           <DialogDescription>
-            <CreateOrganization/>
+            <CreateOrganization routing="hash"/>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
